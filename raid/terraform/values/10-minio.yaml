@@ -1,0 +1,53 @@
+global:
+  imageRegistry: ""
+  storageClass: ""
+
+clusterDomain: cluster.local
+
+image:
+  registry: docker.io
+  repository: bitnami/minio
+  tag: 2023.6.2
+  pullPolicy: IfNotPresent
+
+clientImage:
+  registry: docker.io
+  repository: bitnami/minio-client
+  tag: 2023.5.30
+  digest: ""
+
+mode: standalone
+
+auth:
+  rootUser: admin
+  rootPassword: ""
+  existingSecret: ""
+  forcePassword: false
+  useCredentialsFiles: false
+  forceNewKeys: false
+
+defaultBuckets: ""
+
+statefulset:
+  updateStrategy:
+    type: RollingUpdate
+  podManagementPolicy: Parallel
+  replicaCount: 4
+  zones: 1
+  drivesPerNode: 1
+
+service:
+  type: NodePort
+  ports:
+    api: 9000
+    console: 9001
+  nodePorts:
+    api: 31900
+    console: 31901
+  clusterIP: ""
+
+  hostname: minio.local
+  path: /
+  pathType: ImplementationSpecific
+  servicePort: minio-console
+  servicePort: minio-api

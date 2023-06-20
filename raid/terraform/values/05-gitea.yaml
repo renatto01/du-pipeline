@@ -1,0 +1,11 @@
+gitea:
+  admin:
+    username: "zem"
+    password: "password123"
+    email: "jose_miguel_gomes@hotmail.com"
+service:
+  http:
+    type: NodePort
+    port: 3000
+#   clusterIP: None
+    nodePort: 30500

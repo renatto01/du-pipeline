@@ -1,0 +1,24 @@
+---
+- name: Run kubectl commands to port forward
+  hosts: localhost
+  #remote_user: xxx
+  become: false
+  gather_facts: true
+  tasks:
+    - shell: |
+        sh port-forward.sh
+#   - name: Execute kubectl command to get pods
+#     command: kubectl get pods -A
+#     register: kubectl_output
+#   - name: Create Namespace
+#     k8s:
+#        name: zem-namespace
+#        api_version: v1
+#        kind: Namespace
+#        state: present
+#   - shell: |
+#      kubectl get pods -A
+#   - shell:
+#      cmd: |
+#         kubectl get pods -A
+#     register: output2

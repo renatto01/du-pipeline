@@ -1,0 +1,22 @@
+ui:
+  title: "Docker registry UI"
+  deleteImages: true
+  dockerRegistryUrl: http://localhost:30600
+  defaultTheme: "dark"
+  image: joxit/docker-registry-ui:2.4.1
+  service:
+    type: NodePort
+    port: 80
+    targetPort: 80
+    nodePort: 30700
+
+## Registry Server
+registry:
+  # Enable the registry server.
+  enabled: false
+  image: registry:2.8.2
+  service:
+    type: ClusterIP
+    port: 5000
+    targetPort: 5000
+    nodePort: null

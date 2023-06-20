@@ -1,0 +1,16 @@
+---
+global:
+  image:
+    repository: quay.io/argoproj/argocd
+    tag: "v2.6.8"
+    imagePullPolicy: IfNotPresent
+  logging:
+    format: json
+    level: info
+
+server:
+  extraArgs:
+    - --insecure
+  service:
+    type: NodePort
+    nodePortHttp: 30100

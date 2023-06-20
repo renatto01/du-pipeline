@@ -1,0 +1,12 @@
+---
+env:
+  open:
+    DISABLE_API: false
+
+persistence:
+  enabled: false
+
+service:
+  type: NodePort
+  externalPort: 8080
+  nodePort: 30300

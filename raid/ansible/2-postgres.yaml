@@ -1,0 +1,62 @@
+---
+- name: Database Setup (Run SQL commands on PostgreSQL database)
+  hosts: localhost
+  #remote_user: xxx
+  become: false
+  gather_facts: false
+
+  vars:
+     database_host: localhost
+     database_port: 30900
+     database_name: postgres
+     database_user: postgres
+     database_password: password
+
+     db_raid_user: appadm
+     db_raid_password: APPADM
+#    db_raid_ts_init: /data/pgdata
+     db_raid_ts_init: /bitnami/postgresql/data/pgdata
+     db_raid_database: raid_du
+
+     # used on target hosts
+     ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+    - name: Database setup
+      postgresql_query:
+         login_host: "{{ database_host }}"
+         login_port: "{{ database_port }}"
+         login_user: "{{ database_user }}"
+         login_password: "{{ database_password }}"
+         db: "{{ database_name }}"
+         query: |
+           -- SQL commands go here
+           -- SELECT * FROM pg_tablespace;
+           CREATE ROLE "{{ db_raid_user }}" WITH LOGIN CREATEROLE PASSWORD '{{ db_raid_password }}';
+
+           CREATE TABLESPACE tbs_raid        LOCATION '{{ db_raid_ts_init }}/raid';
+           CREATE TABLESPACE tbs_raid_t00    LOCATION '{{ db_raid_ts_init }}/raid_t00';
+           CREATE TABLESPACE tbs_raid_t50t51 LOCATION '{{ db_raid_ts_init }}/raid_t50t51';
+           CREATE TABLESPACE tbs_raid_t52t53 LOCATION '{{ db_raid_ts_init }}/raid_t52t53';
+           CREATE TABLESPACE tbs_raid_t54    LOCATION '{{ db_raid_ts_init }}/raid_t54';
+           CREATE TABLESPACE tbs_raid_t55    LOCATION '{{ db_raid_ts_init }}/raid_t55';
+           CREATE TABLESPACE tbs_raid_t56    LOCATION '{{ db_raid_ts_init }}/raid_t56';
+           CREATE TABLESPACE tbs_raid_t80    LOCATION '{{ db_raid_ts_init }}/raid_t80';
+
+           GRANT CREATE ON TABLESPACE tbs_raid        TO {{ db_raid_user }} WITH GRANT OPTION;
+           GRANT CREATE ON TABLESPACE tbs_raid_t00    TO {{ db_raid_user }} WITH GRANT OPTION;
+           GRANT CREATE ON TABLESPACE tbs_raid_t50t51 TO {{ db_raid_user }} WITH GRANT OPTION;
+           GRANT CREATE ON TABLESPACE tbs_raid_t52t53 TO {{ db_raid_user }} WITH GRANT OPTION;
+           GRANT CREATE ON TABLESPACE tbs_raid_t54    TO {{ db_raid_user }} WITH GRANT OPTION;
+           GRANT CREATE ON TABLESPACE tbs_raid_t55    TO {{ db_raid_user }} WITH GRANT OPTION;
+           GRANT CREATE ON TABLESPACE tbs_raid_t56    TO {{ db_raid_user }} WITH GRANT OPTION;
+           GRANT CREATE ON TABLESPACE tbs_raid_t80    TO {{ db_raid_user }} WITH GRANT OPTION;
+
+           CREATE DATABASE {{ db_raid_database }} OWNER {{ db_raid_user }} TABLESPACE tbs_raid;
+
+           GRANT CREATE, CONNECT ON DATABASE {{ db_raid_database }} TO {{ db_raid_user }};
+
+      register: sql_output
+
+#   - shell: |
+#       sh db-setup.sh

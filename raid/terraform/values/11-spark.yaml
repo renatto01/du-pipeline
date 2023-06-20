@@ -1,0 +1,39 @@
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  storageClass: ""
+
+clusterDomain: cluster.local
+
+image:
+  registry: docker.io
+  repository: bitnami/spark
+  tag: 3.2.4
+  digest: ""
+  pullPolicy: IfNotPresent
+  debug: false
+
+master:
+  existingConfigmap: ""
+  containerPorts:
+    http: 8080
+    https: 8480
+    cluster: 7077
+worker:
+  existingConfigmap: ""
+  containerPorts:
+    http: 8080
+    https: 8480
+    cluster: ""
+  replicaCount: 2
+
+service:
+  type: NodePort
+  ports:
+    http: 80
+    https: 443
+    cluster: 7077
+  nodePorts:
+    http: 31180
+    https: 31143
+    cluster: 31077

@@ -1,0 +1,28 @@
+image:
+  registry: docker.io
+  repository: bitnami/postgresql
+  tag: 13.11.0
+
+primary:
+  service:
+    type: NodePort
+    ports:
+      postgresql: 5432
+    nodePorts:
+      postgresql: 30900
+
+auth:
+  enablePostgresUser: true
+  postgresPassword: password
+# username: admapp
+# password: ADMAPP
+# database: raid_du
+# replicationUsername: repl_user
+# replicationPassword: ""
+# existingSecret: ""
+# secretKeys:
+#   adminPasswordKey: postgres-password
+#   userPasswordKey: password
+#   replicationPasswordKey: replication-password
+# usePasswordFiles: false
+

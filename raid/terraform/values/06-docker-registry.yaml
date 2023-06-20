@@ -1,0 +1,15 @@
+image:
+  repository: registry
+  tag: 2.8.2
+  pullPolicy: IfNotPresent
+
+service:
+  name: registry
+  type: NodePort
+  # sessionAffinity: None
+  # sessionAffinityConfig: {}
+  # clusterIP:
+  port: 5000
+  nodePort: 30600
+  # loadBalancerIP:
+  # loadBalancerSourceRanges:

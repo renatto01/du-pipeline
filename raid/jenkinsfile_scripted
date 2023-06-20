@@ -1,0 +1,13 @@
+Jenkinsfile (Scripted Pipeline)
+
+node {
+  stage('Build') {
+    // We only build images for FMS T80 to add some ML functionalities, all other images should be used "as is"
+  }
+  stage('Test') {
+    //
+  }
+  stage('Deploy') {
+    //
+  }
+}
