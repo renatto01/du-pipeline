@@ -1,4 +1,4 @@
-Jenkinsfile (Declarative Pipeline)
+//Jenkinsfile (Declarative Pipeline)
 // Execution on Declarative can always be resumed after an interruption
 pipeline {
 
