@@ -1,0 +1,86 @@
+// Jenkinsfile (Declarative Pipeline)
+// Execution on Declarative can always be resumed after an interruption
+pipeline {
+
+   agent none
+// agent any
+// agent {
+       // we will use a VM as a Jenkins agent, with all utilities neeed to deploy (example AWS CLI, ...)
+       // TODO
+//     docker { image 'node:16.13.1-alpine' }
+// }
+   environment {
+      ENVIR = 'DSV'
+
+//      AWS_ACCESS_KEY_ID     = credentials('jenkins-aws-secret-key-id')
+//      AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
+//      BITBUCKET_COMMON_CREDS = credentials('jenkins-bitbucket-common-creds')
+
+      // The MY_KUBECONFIG environment variable will be assigned
+      // the value of a temporary file.  For example:
+      //   /home/user/.jenkins/workspace/cred_test@tmp/secretFiles/546a5cf3-9b56-4165-a0fd-19e2afe6b31f/kubeconfig.txt
+//      MY_KUBECONFIG = credentials('my-kubeconfig')
+
+      // Using returnStdout
+      CC = """${sh(
+              returnStdout: true,
+              script: 'echo "clang"'
+          )}"""
+      // Using returnStatus
+      EXIT_STATUS = """${sh(
+              returnStatus: true,
+              script: 'exit 1'
+          )}"""
+   }
+
+   stages {
+      stage('Example') {
+         agent any
+         steps {
+             echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL} on node ${env.NODE_NAME} with jobname ${env.JOB_NAME} on workspace ${env.WORKSPACE}"
+         }
+      }
+
+      stage('Infra') {
+         // Create the AIP infrastructure so we can Deploy
+         steps {
+             echo 'Infrastructuring...'
+//           cd DU-DEV-INSTALLATION/deployment/dev_configs/scripts
+//           sh '00.create_folders.sh'
+//           sh '01.get_artifacts.sh'
+//           sh '02.prepare_bundles_portal.sh'
+//           sh '02.prepare_bundles_t80.sh'
+//           sh '05.copy_license.sh'
+//           sh '07.configure_oracle.sh'
+//           sh '09.pull_push_registry.sh'
+         }
+      }
+      stage('Build') {
+         // We only build images for FMS T80 to add some ML functionalities, all other images should be used "as is"
+         agent any
+         steps {
+//           sh 'build-T80'
+             echo 'Building...'
+         }
+      }
+      stage('Test') {
+         agent any
+         //
+         steps {
+//           sh 'node --version'
+             echo 'Testing...'
+         }
+      }
+      stage('Deploy') {
+         //
+         steps {
+             echo 'Deploying...'
+//           cd DU-DEV-INSTALLATION/deployment/dev_configs/scripts
+//           sh 'deployAll.sh'
+         }
+      }
+   }
+
+}
+
+// buildDiscarder !!!
